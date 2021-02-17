@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Incomes / Expenses</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Day of Week</th>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Income</th>
+        <th>Expense</th>
+    </tr>
+
+    <tr th:each="incomeoutgo : ${incomeoutgo}">
+        <td th:text="${incomeoutgo.id}">id</td>
+        <td th:text="${incomeoutgo.dayofweek}">dayofweek</td>
+        <td th:text="${incomeoutgo.person}">person</td>
+        <td th:text="${incomeoutgo.location}">location</td>
+        <td th:text="${#numbers.formatCurrency(incomeoutgo.income)}">"${#numbers.formatCurrency(incomeoutgo.income)}"</td>
+        <td th:text="${#numbers.formatCurrency(incomeoutgo.outgo)}">"${#numbers.formatCurrency(incomeoutgo.outgo)}"</td>
+    </tr>
+</table>
+
+<form action="#" th:action="@{/incomeoutgo}" th:object="${page}" method="post">
+    <table>
+        <tr>
+            <td>DayOfWeek:</td>
+            <td><input type="text" th:field="*{dayofweek}" /></td>
+            <td th:if="${#fields.hasErrors('dayofweek')}" th:errors="*{dayofweek}">Name Error</td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="*{person}" /></td>
+            <td th:if="${#fields.hasErrors('person')}" th:errors="*{person}">Name Error</td>
+        </tr>
+        <tr><td>Location:<input type="text" th:field="*{location}" /></td></tr>
+        <tr><td>Income:<input type="text" th:field="*{income}" value="0"/></td></tr>
+        <tr><td>Outgo:<input type="text" th:field="*{outgo}" value="0"/></td></tr>
+        <tr><td><button type="submit">Submit</button></td></tr>
+    </table>
+</form>
+</body>
+</html>
