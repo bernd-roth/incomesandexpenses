@@ -7,7 +7,26 @@
 </head>
 <body>
 
+
+
 <table>
+
+    <tr>
+        <th>Person</th>
+        <th>Kumuliert</th>
+        <th>Location</th>
+    </tr>
+
+    <tr th:each="total : ${incomeoutgototal}">
+        <td th:text="${total.person}">person</td>
+        <td th:text="${#numbers.formatCurrency(total.gesamt)}">"${#numbers.formatCurrency(total.gesamt)}"</td>
+        <td th:text="${total.location}">location</td>
+    </tr>
+
+</table>
+
+<table
+
     <tr>
         <th>Id</th>
         <th>Day of Week</th>

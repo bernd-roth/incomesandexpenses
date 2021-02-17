@@ -1,9 +1,9 @@
 package at.co.netconsulting.incomesandexpenses.presentation;
 
 import at.co.netconsulting.incomesandexpenses.domain.IncomeOutgo;
+import at.co.netconsulting.incomesandexpenses.domain.IncomeOutgoTotal;
 import at.co.netconsulting.incomesandexpenses.service.IncomOutgoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +20,7 @@ import java.util.List;
 public class IncomeOutgoController {
 
     private static final String INCOMEOUTGO_VIEW = "incomeoutgo";
+    private static final String INCOMEOUTGO_TOTAL = "incomeoutgototal";
     private final IncomOutgoService incomeoutgoService;
 
     @GetMapping
@@ -27,6 +28,10 @@ public class IncomeOutgoController {
         List<IncomeOutgo> incomeOutgoList = incomeoutgoService.getIncomeOutgoList();
         model.addAttribute(INCOMEOUTGO_VIEW, incomeOutgoList);
         model.addAttribute("page", new IncomeOutgo());
+
+        List<IncomeOutgoTotal> l = incomeoutgoService.getTotal();
+        model.addAttribute(INCOMEOUTGO_TOTAL, l);
+
         return INCOMEOUTGO_VIEW;
     }
 
@@ -35,9 +40,11 @@ public class IncomeOutgoController {
         if(bindingResult.hasErrors()) {
             return INCOMEOUTGO_VIEW;
         }
+        List<IncomeOutgoTotal> l = incomeoutgoService.getTotal();
         incomeoutgoService.addIncomeOutgo(incomeoutgo);
         List<IncomeOutgo> incomeOutgoList = incomeoutgoService.getIncomeOutgoList();
         model.addAttribute(INCOMEOUTGO_VIEW, incomeOutgoList);
+        model.addAttribute(INCOMEOUTGO_TOTAL, l);
         model.addAttribute("page", new IncomeOutgo());
         return INCOMEOUTGO_VIEW;
     }

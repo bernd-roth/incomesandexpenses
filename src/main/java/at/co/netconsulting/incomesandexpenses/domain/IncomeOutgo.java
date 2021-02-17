@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Min;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Getter
@@ -51,4 +52,5 @@ public class IncomeOutgo extends AbstractPersistable<Long> {
     @Size(min= 2)
     @Column(name="outgo")
     private float outgo;
+
 }
