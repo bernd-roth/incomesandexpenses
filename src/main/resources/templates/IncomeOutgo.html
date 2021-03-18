@@ -2,55 +2,92 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Incomes / Expenses</title>
+    <link th:href="@{/styles.css}" rel="stylesheet" />
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
+<div class="row">
+    <!-- Sums -->
+    <div class="column">
+        <table>
+            <caption class="detailed">Summary of income and expenses</caption>
+            <tr>
+                <th>Total Income</th>
+                <th>Total Expense</th>
+                <th>Savings</th>
+            </tr>
 
+            <tr th:each="sumincomeoutgo : ${sumincomeoutgo}">
+                <td th:text="${sumincomeoutgo.income}">income</td>
+                <td style="background-color:#FF0000" th:text="${sumincomeoutgo.outgo}">outgo</td>
+                <td th:text="${sumincomeoutgo.savings}">savings</td>
+            </tr>
+        </table>
+    </div>
+    <!-- Income -->
+    <div class="column">
+        <table>
+            <caption class="income">List of income</caption>
+            <tr>
+                <th>Position</th>
+                <th>Income</th>
+            </tr>
 
+            <tr th:each="income : ${incomeGroupedByPosition}">
+                <td th:text="${income.position}">location</td>
+                <td th:text="${#numbers.formatCurrency(income.income)}">"${#numbers.formatCurrency(income.income)}"</td>
+            </tr>
+        </table>
+    </div>
+    <!-- Expense -->
+    <div class="column">
+        <table>
+            <caption class="expense">Expenses</caption>
+            <tr>
+                <th>Position</th>
+                <th>Outgo</th>
+            </tr>
 
-<table>
+            <tr th:each="outgoGroupedByPosition : ${outgoGroupedByPosition}">
+                <td th:text="${outgoGroupedByPosition.position}">Position</td>
+                <td th:text="${#numbers.formatCurrency(outgoGroupedByPosition.outgo)}">"${#numbers.formatCurrency(outgoGroupedByPosition.outgo)}"</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<hr>
 
-    <tr>
-        <th>Person</th>
-        <th>Kumuliert</th>
-        <th>Location</th>
-    </tr>
+<!-- Detailed list of expenses -->
+<div class="row">
+    <div class="column">
+        <table>
+            <caption class="detailed">Detailed list of expenses</caption>
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Income</th>
+                <th>Expense</th>
+            </tr>
 
-    <tr th:each="total : ${incomeoutgototal}">
-        <td th:text="${total.person}">person</td>
-        <td th:text="${#numbers.formatCurrency(total.gesamt)}">"${#numbers.formatCurrency(total.gesamt)}"</td>
-        <td th:text="${total.location}">location</td>
-    </tr>
+            <tr th:each="incomeOutgoOrderByDayOfWeek : ${incomeOutgoOrderByDayOfWeek}">
+                <td th:text="${incomeOutgoOrderByDayOfWeek.dayofweek}">id</td>
+                <td th:text="${incomeOutgoOrderByDayOfWeek.person}">person</td>
+                <td th:text="${incomeOutgoOrderByDayOfWeek.position}">position</td>
+                <td th:text="${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.income)}">"${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.income)}"</td>
+                <td th:text="${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.outgo)}">"${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.outgo)}"</td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-</table>
-
-<table
-
-    <tr>
-        <th>Id</th>
-        <th>Day of Week</th>
-        <th>Name</th>
-        <th>Location</th>
-        <th>Income</th>
-        <th>Expense</th>
-    </tr>
-
-    <tr th:each="incomeoutgo : ${incomeoutgo}">
-        <td th:text="${incomeoutgo.id}">id</td>
-        <td th:text="${incomeoutgo.dayofweek}">dayofweek</td>
-        <td th:text="${incomeoutgo.person}">person</td>
-        <td th:text="${incomeoutgo.location}">location</td>
-        <td th:text="${#numbers.formatCurrency(incomeoutgo.income)}">"${#numbers.formatCurrency(incomeoutgo.income)}"</td>
-        <td th:text="${#numbers.formatCurrency(incomeoutgo.outgo)}">"${#numbers.formatCurrency(incomeoutgo.outgo)}"</td>
-    </tr>
-</table>
-
-<form action="#" th:action="@{/incomeoutgo}" th:object="${page}" method="post">
-    <table>
+<!-- Input formular -->
+<form action="#" th:action="@{/incomeoutgo}" th:object="${page}" method="post" onsubmit="return checkForm(this);">>
+    <table class="formular">
         <tr>
             <td>DayOfWeek:</td>
-            <td><input type="text" th:field="*{dayofweek}" /></td>
+            <td><input type="date" th:field="*{dayofweek}" /></td>
             <td th:if="${#fields.hasErrors('dayofweek')}" th:errors="*{dayofweek}">Name Error</td>
         </tr>
         <tr>
@@ -58,11 +95,38 @@
             <td><input type="text" th:field="*{person}" /></td>
             <td th:if="${#fields.hasErrors('person')}" th:errors="*{person}">Name Error</td>
         </tr>
-        <tr><td>Location:<input type="text" th:field="*{location}" /></td></tr>
-        <tr><td>Income:<input type="text" th:field="*{income}" value="0"/></td></tr>
-        <tr><td>Outgo:<input type="text" th:field="*{outgo}" value="0"/></td></tr>
-        <tr><td><button type="submit">Submit</button></td></tr>
+        <tr>
+            <td>Position:</td>
+            <td><input type="text" th:field="*{position}" /></td>
+        </tr>
+        <tr>
+            <td>Income:</td>
+            <td><input type="text" th:field="*{income}" value="0"/></td>
+        </tr>
+        <tr>
+            <td>Outgo:</td>
+            <td><input type="text" th:field="*{outgo}" value="0"/></td>
+        </tr>
     </table>
+    <button type="submit">Submit</button>
 </form>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
+<script>
+    $('.input-group.date').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
+
 </body>
 </html>

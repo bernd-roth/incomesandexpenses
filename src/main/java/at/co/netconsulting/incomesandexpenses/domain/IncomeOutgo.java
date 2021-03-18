@@ -30,8 +30,8 @@ public class IncomeOutgo extends AbstractPersistable<Long> {
 
     @NotNull
     @Size(min= 2, max= 100)
-    @Column(name="location")
-    private String location;
+    @Column(name="position")
+    private String position;
 
     @NotNull
     @Size(min = 5, max = 50)
@@ -46,11 +46,11 @@ public class IncomeOutgo extends AbstractPersistable<Long> {
     @NotNull
     @Size(min= 1)
     @Column(name="income")
-    private float income;
+    private double income;
 
     @NotNull
     @Size(min= 2)
     @Column(name="outgo")
-    private float outgo;
+    private double outgo;
 
 }

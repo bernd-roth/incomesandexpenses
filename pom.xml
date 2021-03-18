@@ -16,6 +16,12 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
+        <bootstrap.version>4.0.0-2</bootstrap.version>
+        <webjars-locator.version>0.30</webjars-locator.version>
+        <font-awesome.version>5.11.2</font-awesome.version>
+        <!--deactivate when using it locally-->
+        <start-class>at.co.netconsulting.incomesandexpenses.IncomesAndExpensesApplication</start-class>
+        <tomcat.version>9.0.31</tomcat.version>
     </properties>
     <dependencies>
         <dependency>
@@ -56,9 +62,15 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <!--when using it remotely, use this part-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--            <scope>provided</scope>-->
+            <!--when using it remotely, use this part-->
+            <!--when using it locally, use this part-->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <!--<scope>provided</scope>-->
+            <!--when using it locally, use this part-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -70,9 +82,26 @@
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+            <version>${webjars-locator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${font-awesome.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>IncomeAndExpenses</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

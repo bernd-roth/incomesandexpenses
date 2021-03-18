@@ -1,7 +1,6 @@
 package at.co.netconsulting.incomesandexpenses.presentation;
 
-import at.co.netconsulting.incomesandexpenses.domain.IncomeOutgo;
-import at.co.netconsulting.incomesandexpenses.domain.IncomeOutgoTotal;
+import at.co.netconsulting.incomesandexpenses.domain.*;
 import at.co.netconsulting.incomesandexpenses.service.IncomOutgoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,11 @@ public class IncomeOutgoController {
 
     private static final String INCOMEOUTGO_VIEW = "incomeoutgo";
     private static final String INCOMEOUTGO_TOTAL = "incomeoutgototal";
+    private static final String OUTGO_GROUPED_BY_POSITION = "outgoGroupedByPosition";
+    private static final String INCOME_GROUPED_BY_POSITION = "incomeGroupedByPosition";
+    private static final String INCOME_OUTGO_DETAILED_LIST_ORDER_BY_DAYOFWEEK = "incomeOutgoOrderByDayOfWeek";
+    private static final String SUM_INCOME_OUTGO = "sumincomeoutgo";
+
     private final IncomOutgoService incomeoutgoService;
 
     @GetMapping
@@ -29,8 +33,21 @@ public class IncomeOutgoController {
         model.addAttribute(INCOMEOUTGO_VIEW, incomeOutgoList);
         model.addAttribute("page", new IncomeOutgo());
 
-        List<IncomeOutgoTotal> l = incomeoutgoService.getTotal();
-        model.addAttribute(INCOMEOUTGO_TOTAL, l);
+        List<OutgoListGrouped> outgoListGroupedByPosition = incomeoutgoService.getAllPositionsSumUpByOutgo();
+        model.addAttribute(OUTGO_GROUPED_BY_POSITION, outgoListGroupedByPosition);
+        model.addAttribute("outgoListGrouped", new OutgoListGrouped());
+
+        List<IncomeListGrouped> incomeList = incomeoutgoService.getAllPositionsSumUpByIncome();
+        model.addAttribute(INCOME_GROUPED_BY_POSITION, incomeList);
+        model.addAttribute("outgoListGrouped", new IncomeListGrouped());
+
+        List<IncomeOutgoDetailedListOrderByDayOfWeek> detailedListOfIncomeOutgo = incomeoutgoService.getIncomeOutgoDetailedListOrderByDayOfWeek();
+        model.addAttribute(INCOME_OUTGO_DETAILED_LIST_ORDER_BY_DAYOFWEEK, detailedListOfIncomeOutgo);
+        model.addAttribute("outgoListGrouped", new IncomeOutgoDetailedListOrderByDayOfWeek());
+
+        List<SumIncomeOutgo> sumListIncomeOutgo = incomeoutgoService.getSumIncomeOutgo();
+        model.addAttribute(SUM_INCOME_OUTGO, sumListIncomeOutgo);
+        model.addAttribute("outgoListGrouped", sumListIncomeOutgo);
 
         return INCOMEOUTGO_VIEW;
     }
@@ -40,12 +57,23 @@ public class IncomeOutgoController {
         if(bindingResult.hasErrors()) {
             return INCOMEOUTGO_VIEW;
         }
-        List<IncomeOutgoTotal> l = incomeoutgoService.getTotal();
         incomeoutgoService.addIncomeOutgo(incomeoutgo);
         List<IncomeOutgo> incomeOutgoList = incomeoutgoService.getIncomeOutgoList();
         model.addAttribute(INCOMEOUTGO_VIEW, incomeOutgoList);
-        model.addAttribute(INCOMEOUTGO_TOTAL, l);
         model.addAttribute("page", new IncomeOutgo());
+
+        List<IncomeListGrouped> incomeList = incomeoutgoService.getAllPositionsSumUpByIncome();
+        model.addAttribute(INCOME_GROUPED_BY_POSITION, incomeList);
+        model.addAttribute("outgoListGrouped", new OutgoListGrouped());
+
+        List<IncomeOutgoDetailedListOrderByDayOfWeek> detailedListOfIncomeOutgo = incomeoutgoService.getIncomeOutgoDetailedListOrderByDayOfWeek();
+        model.addAttribute(INCOME_OUTGO_DETAILED_LIST_ORDER_BY_DAYOFWEEK, detailedListOfIncomeOutgo);
+        model.addAttribute("outgoListGrouped", new IncomeOutgoDetailedListOrderByDayOfWeek());
+
+        List<SumIncomeOutgo> sumListIncomeOutgo = incomeoutgoService.getSumIncomeOutgo();
+        model.addAttribute(SUM_INCOME_OUTGO, sumListIncomeOutgo);
+        model.addAttribute("outgoListGrouped", sumListIncomeOutgo);
+
         return INCOMEOUTGO_VIEW;
     }
 }

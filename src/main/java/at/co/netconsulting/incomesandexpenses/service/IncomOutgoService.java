@@ -1,7 +1,6 @@
 package at.co.netconsulting.incomesandexpenses.service;
 
-import at.co.netconsulting.incomesandexpenses.domain.IncomeOutgo;
-import at.co.netconsulting.incomesandexpenses.domain.IncomeOutgoTotal;
+import at.co.netconsulting.incomesandexpenses.domain.*;
 import at.co.netconsulting.incomesandexpenses.persistence.IncomeOutgoRepository;
 import at.co.netconsulting.incomesandexpenses.persistence.IncomeOutgoTotalRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +26,20 @@ public class IncomOutgoService {
         incomeOutgoRepository.save(incomeOutgo);
     }
 
-    public List<IncomeOutgoTotal> getTotal() {
-        return incomeOutgoTotalRepository.getTotal();
+    public List<OutgoListGrouped> getAllPositionsSumUpByOutgo() {
+        return incomeOutgoTotalRepository.getAllPositionsSumUpByOutgo();
+    }
+
+    public List<IncomeListGrouped> getAllPositionsSumUpByIncome() {
+        return incomeOutgoTotalRepository.getAllPositionsSumUpByIncome();
+    }
+
+    public List<IncomeOutgoDetailedListOrderByDayOfWeek> getIncomeOutgoDetailedListOrderByDayOfWeek() {
+        return incomeOutgoTotalRepository.getIncomeOutgoDetailedListOrderByDayOfWeek();
+    }
+
+    public List<SumIncomeOutgo> getSumIncomeOutgo() {
+        return incomeOutgoTotalRepository.getSumIncomeOutgo();
     }
 
 }
