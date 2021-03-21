@@ -29,4 +29,7 @@ public interface IncomeOutgoTotalRepository extends CrudRepository<IncomeOutgo, 
 
     @Query(value = "SELECT new at.co.netconsulting.incomesandexpenses.domain.DateChoiceDTO(dayofweek, person, position, income, outgo) FROM IncomeOutgo WHERE dayofweek BETWEEN ?1 and ?2")
     List<DateChoiceDTO> findAllByDate(Date firstDayOfMonth, Date lastDayOfMonth);
+
+    @Query(value = "SELECT new at.co.netconsulting.incomesandexpenses.domain.SumDateChoiceDTO(SUM(income), SUM(outgo)) FROM IncomeOutgo WHERE dayofweek BETWEEN ?1 and ?2")
+    List<SumDateChoiceDTO> sumByDate(Date firstDayOfMonth, Date lastDayOfMonth);
 }

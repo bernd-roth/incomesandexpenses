@@ -88,6 +88,17 @@
                 <td th:text="${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.outgo)}">"${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.outgo)}"</td>
             </tr>
         </table>
+
+        <table>
+            <tr th:each="sumDetailedListOfIncomeOutgo : ${sumDetailedListOfIncomeOutgo}">
+                <td >Total</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td th:text="${#numbers.formatCurrency(sumDetailedListOfIncomeOutgo.income)}">"${#numbers.formatCurrency(sumDetailedListOfIncomeOutgo.income)}"</td>
+                <td th:text="${#numbers.formatCurrency(sumDetailedListOfIncomeOutgo.outgo)}">"${#numbers.formatCurrency(sumDetailedListOfIncomeOutgo.outgo)}"</td>
+            </tr>
+        </table>
     </div>
 </div>
 

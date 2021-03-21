@@ -25,6 +25,7 @@ public class IncomeOutgoController {
     private static final String INCOME_GROUPED_BY_POSITION = "incomeGroupedByPosition";
     private static final String INCOME_OUTGO_DETAILED_LIST_ORDER_BY_DAYOFWEEK = "incomeOutgoOrderByDayOfWeek";
     private static final String SUM_INCOME_OUTGO = "sumincomeoutgo";
+    private static final String SUM_DETAILED_LIST_OF_INCOME_OUTGO = "sumDetailedListOfIncomeOutgo";
 
     private final IncomOutgoService incomeoutgoService;
 
@@ -83,7 +84,7 @@ public class IncomeOutgoController {
     }
 
     @PostMapping(value="/selectDateRange")
-    public String selectDateRange(@DateTimeFormat(pattern = "yyyy-MM-dd") Date selectionDate, @ModelAttribute("incomeoutgoDate") @Valid DateChoiceDTO dateChoice, Model model, BindingResult bindingResult) {
+    public String selectDateRange(@DateTimeFormat(pattern = "yyyy-MM-dd") Date selectionDate, @ModelAttribute("incomeoutgoDate") @Valid DateChoiceDTO dateChoice, @Valid SumDateChoiceDTO sumDateChoiceDTO, Model model, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return INCOMEOUTGO_VIEW;
         }
@@ -107,6 +108,11 @@ public class IncomeOutgoController {
         List<SumIncomeOutgo> sumListIncomeOutgo = incomeoutgoService.getSumIncomeOutgo();
         model.addAttribute(SUM_INCOME_OUTGO, sumListIncomeOutgo);
         model.addAttribute("outgoListGrouped", sumListIncomeOutgo);
+
+        //sum detailed list between date1 and date2
+        List<SumDateChoiceDTO> sumDetailedListOfIncomeOutgo = incomeoutgoService.sumByDate(selectionDate);
+        model.addAttribute(SUM_DETAILED_LIST_OF_INCOME_OUTGO, sumDetailedListOfIncomeOutgo);
+        model.addAttribute("outgoListGrouped", new SumDateChoiceDTO());
 
         return INCOMEOUTGO_VIEW;
     }

@@ -49,6 +49,11 @@ public class IncomOutgoService {
         return incomeOutgoTotalRepository.findAllByDate(firstDayOfMonth, lastDayOfMonth);
     }
 
+    public List<SumDateChoiceDTO> sumByDate(Date firstDayOfMonth) {
+        Date lastDayOfMonth = getLastDayOfMonth();
+        return incomeOutgoTotalRepository.sumByDate(firstDayOfMonth, lastDayOfMonth);
+    }
+
     private Date getLastDayOfMonth() {
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
