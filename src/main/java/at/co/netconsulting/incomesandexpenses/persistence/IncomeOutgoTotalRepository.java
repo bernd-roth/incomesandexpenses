@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -25,4 +26,7 @@ public interface IncomeOutgoTotalRepository extends CrudRepository<IncomeOutgo, 
 
     @Query(value = "SELECT new at.co.netconsulting.incomesandexpenses.domain.SumIncomeOutgo( SUM(income) AS income, SUM(outgo) as outgo, SUM(income)-SUM(outgo) AS savings) from IncomeOutgo where (income > 0 or outgo > 0)")
     List<SumIncomeOutgo> getSumIncomeOutgo();
+
+    @Query(value = "SELECT new at.co.netconsulting.incomesandexpenses.domain.DateChoiceDTO(dayofweek, person, position, income, outgo) FROM IncomeOutgo WHERE dayofweek BETWEEN ?1 and ?2")
+    List<DateChoiceDTO> findAllByDate(Date start_dayofmonth, Date end_dayofmonth);
 }

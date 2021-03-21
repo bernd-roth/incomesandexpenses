@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Incomes / Expenses</title>
     <link th:href="@{/styles.css}" rel="stylesheet" />
@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
+
+<form action="#" th:action="@{/incomeoutgo/selectDateRange}" th:object="${page}" method="post" onsubmit="return checkForm(this);">
+    <label for="selectionDate">Select Date: </label>
+    <input type="date" id="selectionDate" name="selectionDate">
+    <button type="submit">Submit</button>
+</form>
+
 <div class="row">
     <!-- Sums -->
     <div class="column">
@@ -75,7 +82,7 @@
                 <td th:text="${incomeOutgoOrderByDayOfWeek.dayofweek}">id</td>
                 <td th:text="${incomeOutgoOrderByDayOfWeek.person}">person</td>
                 <td th:text="${incomeOutgoOrderByDayOfWeek.position}">position</td>
-                <td th:text="${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.income)}">"${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.income)}"</td>
+                <td th:text="${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.income)}">"${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.income, Currency.getInstance("EUR"))}"</td>
                 <td th:text="${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.outgo)}">"${#numbers.formatCurrency(incomeOutgoOrderByDayOfWeek.outgo)}"</td>
             </tr>
         </table>
@@ -83,7 +90,7 @@
 </div>
 
 <!-- Input formular -->
-<form action="#" th:action="@{/incomeoutgo}" th:object="${page}" method="post" onsubmit="return checkForm(this);">>
+<form action="#" th:action="@{/incomeoutgo/submitFields}" th:object="${page}" method="post" onsubmit="return checkForm(this);">
     <table class="formular">
         <tr>
             <td>DayOfWeek:</td>
