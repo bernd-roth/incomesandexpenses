@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,19 @@ public class IncomOutgoService {
         return incomeOutgoTotalRepository.getSumIncomeOutgo();
     }
 
-    public List<DateChoiceDTO> getAllForDateChoice(Date start_dayofmonth) {
-        return incomeOutgoTotalRepository.findAllByDate(start_dayofmonth, start_dayofmonth);
+    public List<DateChoiceDTO> getAllForDateChoice(Date firstDayOfMonth) {
+        Date lastDayOfMonth = getLastDayOfMonth();
+        return incomeOutgoTotalRepository.findAllByDate(firstDayOfMonth, lastDayOfMonth);
     }
+
+    private Date getLastDayOfMonth() {
+        Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DATE, -1);
+        return calendar.getTime();
+    }
+
 }

@@ -3,16 +3,13 @@ package at.co.netconsulting.incomesandexpenses.presentation;
 import at.co.netconsulting.incomesandexpenses.domain.*;
 import at.co.netconsulting.incomesandexpenses.service.IncomOutgoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.propertyeditors.CurrencyEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 

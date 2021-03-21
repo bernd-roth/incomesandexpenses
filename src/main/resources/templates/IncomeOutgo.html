@@ -9,10 +9,12 @@
 <body>
 
 <form action="#" th:action="@{/incomeoutgo/selectDateRange}" th:object="${page}" method="post" onsubmit="return checkForm(this);">
-    <label for="selectionDate">Select Date: </label>
-    <input type="date" id="selectionDate" name="selectionDate">
-    <button type="submit">Submit</button>
+    <div style="text-align:center">
+    <p>Select Date: <input type="date" id="selectionDate" name="selectionDate" align="center"> <button type="submit" align="center">Submit</button>
+    </div>
 </form>
+
+<hr>
 
 <div class="row">
     <!-- Sums -->

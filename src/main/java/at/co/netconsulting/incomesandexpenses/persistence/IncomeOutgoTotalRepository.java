@@ -28,5 +28,5 @@ public interface IncomeOutgoTotalRepository extends CrudRepository<IncomeOutgo, 
     List<SumIncomeOutgo> getSumIncomeOutgo();
 
     @Query(value = "SELECT new at.co.netconsulting.incomesandexpenses.domain.DateChoiceDTO(dayofweek, person, position, income, outgo) FROM IncomeOutgo WHERE dayofweek BETWEEN ?1 and ?2")
-    List<DateChoiceDTO> findAllByDate(Date start_dayofmonth, Date end_dayofmonth);
+    List<DateChoiceDTO> findAllByDate(Date firstDayOfMonth, Date lastDayOfMonth);
 }
