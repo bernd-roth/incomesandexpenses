@@ -2,6 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Incomes / Expenses</title>
+
+    <style>
+table{width:100%;}
+table td, table th { border: 1px solid grey;}
+table th { background: #eee;}
+.pagination-div{user-select: none;}
+.pagination-div span{border-radius:3px;border:1px solid #999;
+   padding:5px;margin:10px 0px 0px 10px;display:inline-block; text-align: center}
+span.selected{background:#ccf;}
+</style>
     <link th:href="@{/styles.css}" rel="stylesheet" />
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -68,6 +78,43 @@
 <hr>
 
 <!-- Detailed list of expenses -->
+<!--Paging-->
+<table>
+    <tr>
+        <th>Id</th>
+        <th>DayOfWeek</th>
+        <th>Person</th>
+        <th>Position</th>
+        <th>Incomey</th>
+        <th>Outgo</th>
+    </tr>
+    <tr th:each="paging : ${pagingNosorting}">
+        <td th:text="${paging.id}"></td>
+        <td th:text="${paging.dayofweek}"></td>
+        <td th:text="${paging.person}"></td>
+        <td th:text="${paging.position}"></td>
+        <td th:text="${paging.income}"></td>
+        <td th:text="${paging.outgo}"></td>
+    </tr>
+</table>
+
+<div class="pagination-div">
+    <span th:if="${pagingNosorting.hasPrevious()}">
+        <a th:href="@{/incomeoutgo(pagingNosorting=${pagingNosorting.number-1},size=${pagingNosorting.size})}">Previous</a>
+    </span>
+    <th:block th:each="i: ${#numbers.sequence(0, pagingNosorting.totalPages - 1)}">
+        <span th:if="${pagingNosorting.number == i}" class="selected">[[${i}+1]]</span>
+        <span th:unless="${pagingNosorting.number == i}">
+             <a th:href="@{/incomeoutgo(pagingNosorting=${i},size=${pagingNosorting.size})}">[[${i}+1]]</a>
+        </span>
+    </th:block>
+    <span th:if="${pagingNosorting.hasNext()}">
+        <a th:href="@{/incomeoutgo(pagingNosorting=${pagingNosorting.number+1},size=${pagingNosorting.size})}">Next</a>
+    </span>
+</div>
+<!-- Detailed list of expenses -->
+<!--Paging-->
+<!--Detailed list of expenses deactivated for now
 <div class="row">
     <div class="column">
         <table>
@@ -101,19 +148,24 @@
         </table>
     </div>
 </div>
-
+-->
+<hr>
 <!-- Input formular -->
 <form action="#" th:action="@{/incomeoutgo/submitFields}" th:object="${page}" method="post" onsubmit="return checkForm(this);">
     <table class="formular">
         <tr>
-            <td>DayOfWeek:</td>
+            <td>Date:</td>
             <td><input type="date" th:field="*{dayofweek}" /></td>
             <td th:if="${#fields.hasErrors('dayofweek')}" th:errors="*{dayofweek}">Name Error</td>
         </tr>
         <tr>
             <td>Name:</td>
-            <td><input type="text" th:field="*{person}" /></td>
-            <td th:if="${#fields.hasErrors('person')}" th:errors="*{person}">Name Error</td>
+            <td><select id="person" name="person">
+                <option value="Bernd">Bernd</option>
+                <option value="Julia">Julia</option>
+            </select></td>
+            <!--<td><input type="text" th:field="*{person}" /></td>
+            <td th:if="${#fields.hasErrors('person')}" th:errors="*{person}">Name Error</td>-->
         </tr>
         <tr>
             <td>Position:</td>
