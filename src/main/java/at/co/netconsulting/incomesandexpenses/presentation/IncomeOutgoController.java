@@ -39,13 +39,7 @@ public class IncomeOutgoController {
     private final IncomeOutgoPagingAndSortingService incomeOutgoPagingAndSortingService;
 
     @GetMapping
-    public String showIncome(@PageableDefault(size = 10) Pageable pageable, @RequestParam(name="pagingNosorting", required = false) Integer pagingNosorting, Model model) {
-        //Page<IncomeOutgo> page = incomeOutgoPagingAndSortingService.getAllDetailsPaging(pageable);
-        if (pagingNosorting == null) {
-            Pageable pageable1 = PageRequest.of(0, 5, Sort.by("dayofweek").descending());
-            Page<IncomeOutgo> page = incomeOutgoPagingAndSortingService.getAllDetailsPaging(pageable1);
-            model.addAttribute("pagingNosorting", page);
-
+    public String showIncome(Model model) {
             List<IncomeOutgo> incomeOutgoList = incomeoutgoService.getIncomeOutgoList();
             model.addAttribute(INCOMEOUTGO_VIEW, incomeOutgoList);
             model.addAttribute("page", new IncomeOutgo());
@@ -67,34 +61,64 @@ public class IncomeOutgoController {
             model.addAttribute("outgoListGrouped", sumListIncomeOutgo);
 
             return INCOMEOUTGO_VIEW;
-        } else {
-            Pageable pageable1 = PageRequest.of(pagingNosorting, 5, Sort.by("dayofweek").descending());
-            Page<IncomeOutgo> page = incomeOutgoPagingAndSortingService.getAllDetailsPaging(pageable1);
-            model.addAttribute("pagingNosorting", page);
-
-            List<IncomeOutgo> incomeOutgoList = incomeoutgoService.getIncomeOutgoList();
-            model.addAttribute(INCOMEOUTGO_VIEW, incomeOutgoList);
-            model.addAttribute("page", new IncomeOutgo());
-
-            List<OutgoListGrouped> outgoListGroupedByPosition = incomeoutgoService.getAllPositionsSumUpByOutgo();
-            model.addAttribute(OUTGO_GROUPED_BY_POSITION, outgoListGroupedByPosition);
-            model.addAttribute("outgoListGrouped", new OutgoListGrouped());
-
-            List<IncomeListGrouped> incomeList = incomeoutgoService.getAllPositionsSumUpByIncome();
-            model.addAttribute(INCOME_GROUPED_BY_POSITION, incomeList);
-            model.addAttribute("outgoListGrouped", new IncomeListGrouped());
-
-            List<IncomeOutgoDetailedListOrderByDayOfWeek> detailedListOfIncomeOutgo = incomeoutgoService.getIncomeOutgoDetailedListOrderByDayOfWeek();
-            model.addAttribute(INCOME_OUTGO_DETAILED_LIST_ORDER_BY_DAYOFWEEK, detailedListOfIncomeOutgo);
-            model.addAttribute("outgoListGrouped", new IncomeOutgoDetailedListOrderByDayOfWeek());
-
-            List<SumIncomeOutgo> sumListIncomeOutgo = incomeoutgoService.getSumIncomeOutgo();
-            model.addAttribute(SUM_INCOME_OUTGO, sumListIncomeOutgo);
-            model.addAttribute("outgoListGrouped", sumListIncomeOutgo);
-
-            return INCOMEOUTGO_VIEW;
-        }
     }
+//    @GetMapping
+//    public String showIncome(@PageableDefault(size = 10) Pageable pageable, @RequestParam(name="pagingNosorting", required = false) Integer pagingNosorting, Model model) {
+//
+//        if (pagingNosorting == null) {
+//            Pageable pageable1 = PageRequest.of(0, 5, Sort.by("dayofweek").descending());
+//            Page<IncomeOutgo> page = incomeOutgoPagingAndSortingService.getAllDetailsPaging(pageable1);
+//            model.addAttribute("pagingNosorting", page);
+//
+//            List<IncomeOutgo> incomeOutgoList = incomeoutgoService.getIncomeOutgoList();
+//            model.addAttribute(INCOMEOUTGO_VIEW, incomeOutgoList);
+//            model.addAttribute("page", new IncomeOutgo());
+//
+//            List<OutgoListGrouped> outgoListGroupedByPosition = incomeoutgoService.getAllPositionsSumUpByOutgo();
+//            model.addAttribute(OUTGO_GROUPED_BY_POSITION, outgoListGroupedByPosition);
+//            model.addAttribute("outgoListGrouped", new OutgoListGrouped());
+//
+//            List<IncomeListGrouped> incomeList = incomeoutgoService.getAllPositionsSumUpByIncome();
+//            model.addAttribute(INCOME_GROUPED_BY_POSITION, incomeList);
+//            model.addAttribute("outgoListGrouped", new IncomeListGrouped());
+//
+//            List<IncomeOutgoDetailedListOrderByDayOfWeek> detailedListOfIncomeOutgo = incomeoutgoService.getIncomeOutgoDetailedListOrderByDayOfWeek();
+//            model.addAttribute(INCOME_OUTGO_DETAILED_LIST_ORDER_BY_DAYOFWEEK, detailedListOfIncomeOutgo);
+//            model.addAttribute("outgoListGrouped", new IncomeOutgoDetailedListOrderByDayOfWeek());
+//
+//            List<SumIncomeOutgo> sumListIncomeOutgo = incomeoutgoService.getSumIncomeOutgo();
+//            model.addAttribute(SUM_INCOME_OUTGO, sumListIncomeOutgo);
+//            model.addAttribute("outgoListGrouped", sumListIncomeOutgo);
+//
+//            return INCOMEOUTGO_VIEW;
+//        } else {
+//            Pageable pageable1 = PageRequest.of(pagingNosorting, 5, Sort.by("dayofweek").descending());
+//            Page<IncomeOutgo> page = incomeOutgoPagingAndSortingService.getAllDetailsPaging(pageable1);
+//            model.addAttribute("pagingNosorting", page);
+//
+//            List<IncomeOutgo> incomeOutgoList = incomeoutgoService.getIncomeOutgoList();
+//            model.addAttribute(INCOMEOUTGO_VIEW, incomeOutgoList);
+//            model.addAttribute("page", new IncomeOutgo());
+//
+//            List<OutgoListGrouped> outgoListGroupedByPosition = incomeoutgoService.getAllPositionsSumUpByOutgo();
+//            model.addAttribute(OUTGO_GROUPED_BY_POSITION, outgoListGroupedByPosition);
+//            model.addAttribute("outgoListGrouped", new OutgoListGrouped());
+//
+//            List<IncomeListGrouped> incomeList = incomeoutgoService.getAllPositionsSumUpByIncome();
+//            model.addAttribute(INCOME_GROUPED_BY_POSITION, incomeList);
+//            model.addAttribute("outgoListGrouped", new IncomeListGrouped());
+//
+//            List<IncomeOutgoDetailedListOrderByDayOfWeek> detailedListOfIncomeOutgo = incomeoutgoService.getIncomeOutgoDetailedListOrderByDayOfWeek();
+//            model.addAttribute(INCOME_OUTGO_DETAILED_LIST_ORDER_BY_DAYOFWEEK, detailedListOfIncomeOutgo);
+//            model.addAttribute("outgoListGrouped", new IncomeOutgoDetailedListOrderByDayOfWeek());
+//
+//            List<SumIncomeOutgo> sumListIncomeOutgo = incomeoutgoService.getSumIncomeOutgo();
+//            model.addAttribute(SUM_INCOME_OUTGO, sumListIncomeOutgo);
+//            model.addAttribute("outgoListGrouped", sumListIncomeOutgo);
+//
+//            return INCOMEOUTGO_VIEW;
+//        }
+//    }
 
     @PostMapping(value="/submitFields")
     public String submitFields(@ModelAttribute("incomeoutgo") @Valid IncomeOutgo incomeoutgo, Model model, BindingResult bindingResult) {

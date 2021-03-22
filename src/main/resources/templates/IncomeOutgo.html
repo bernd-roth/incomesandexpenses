@@ -3,15 +3,19 @@
 <head>
     <title>Incomes / Expenses</title>
 
+<!--Used for paging-->
+    <!--
     <style>
-table{width:100%;}
-table td, table th { border: 1px solid grey;}
-table th { background: #eee;}
-.pagination-div{user-select: none;}
-.pagination-div span{border-radius:3px;border:1px solid #999;
-   padding:5px;margin:10px 0px 0px 10px;display:inline-block; text-align: center}
-span.selected{background:#ccf;}
-</style>
+         table{width:100%;}
+         table td, table th { border: 1px solid grey;}
+         table th { background: #eee;}
+        .pagination-div{user-select: none;}
+        .pagination-div span{border-radius:3px;border:1px solid #999;
+         padding:5px;margin:10px 0px 0px 10px;display:inline-block; text-align: center}
+         span.selected{background:#ccf;}
+        </style>
+    -->
+<!--Used for paging-->
     <link th:href="@{/styles.css}" rel="stylesheet" />
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -76,9 +80,9 @@ span.selected{background:#ccf;}
     </div>
 </div>
 <hr>
-
 <!-- Detailed list of expenses -->
 <!--Paging-->
+<!--
 <table>
     <tr>
         <th>Id</th>
@@ -112,9 +116,11 @@ span.selected{background:#ccf;}
         <a th:href="@{/incomeoutgo(pagingNosorting=${pagingNosorting.number+1},size=${pagingNosorting.size})}">Next</a>
     </span>
 </div>
-<!-- Detailed list of expenses -->
+
+-->
 <!--Paging-->
-<!--Detailed list of expenses deactivated for now
+
+<!-- Detailed list of expenses -->
 <div class="row">
     <div class="column">
         <table>
@@ -148,7 +154,7 @@ span.selected{background:#ccf;}
         </table>
     </div>
 </div>
--->
+<!-- Detailed list of expenses -->
 <hr>
 <!-- Input formular -->
 <form action="#" th:action="@{/incomeoutgo/submitFields}" th:object="${page}" method="post" onsubmit="return checkForm(this);">
