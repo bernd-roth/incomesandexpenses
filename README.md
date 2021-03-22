@@ -1,13 +1,19 @@
 # Income and Expenses
+Income and Expenses is a Spring Boot project in order to protocol your incomes and expenses.
+Further, you can choose the date range for which all incomes and expenses will be displayed.
 
-Income and Expenses is a Spring Boot project in order to protocol your incomes and expenses and to have a overview.
+# Setup
+Postgres database is needed.
+DDL are included.
 
 ## Installation
-
-
+mvn clean
+mvn package
 
 ## Usage
-
+Url:
+Main: localhost:8080/incomeoutgo
+SelectedRange: http://localhost:8080/incomeoutgo/selectDateRange
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
